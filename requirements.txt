@@ -1,0 +1,5 @@
+flask>=3.0,<4
+requests>=2.31,<3
+docker>=7.0,<8
+gunicorn>=22,<24
+tzdata

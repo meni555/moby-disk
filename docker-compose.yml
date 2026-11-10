@@ -1,0 +1,25 @@
+services:
+  moby-disk:
+    build: .
+    image: moby-disk:latest
+    container_name: moby-disk
+    restart: unless-stopped
+    env_file: .env
+    environment:
+      DOCKER_SOCK: /var/run/docker.sock
+      VOLUMES_ROOT: /var/lib/docker/volumes
+      BACKUP_ROOT: /opt/docker-backups
+      DATA_DIR: /data
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - /var/lib/docker/volumes:/var/lib/docker/volumes
+      - /opt/docker-backups:/opt/docker-backups
+      - ./data:/data
+      # Host-Pfade, unter denen Bind-Mounts anderer Container liegen – nur lesend und unter
+      # demselben Pfad (siehe docs/scope-and-settings.md „Host-Freigaben“):
+      # - /home/<user>:/home/<user>:ro
+      # - /opt/stacks:/opt/stacks:ro
+      # Eigene Skripte für das Ziel „Befehl/Skript“:
+      # - ./scripts:/scripts:ro
+    ports:
+      - "127.0.0.1:8484:8000"
